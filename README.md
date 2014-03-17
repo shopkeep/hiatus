@@ -1,6 +1,6 @@
 # Hiatus
 
-TODO: Write a gem description
+This gem will allow you to use Redis to pause and check for paused status of things
 
 ## Installation
 
@@ -18,7 +18,41 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In an initializer, do this:
+
+```ruby
+Hiatus.configure(Redis.new)
+```
+
+Uses:
+
+1. Extend an existing model:
+
+```ruby
+class YeOldeBlob
+  extend Hiatus::KillSwitch
+
+  def self.process_everything
+    return if paused?
+    ...
+  end
+end
+
+rake stop_blobs do
+  YeOldeBlob.pause
+end
+
+```
+
+2. Pause one or more processes by name
+
+```ruby
+rake read_only_maintenance_mode do
+  Hiatus.pause([:blobs, :jobs, :screaming_sobs], 2000)
+end
+
+Hiatus.paused?(:blobs) => true
+```
 
 ## Contributing
 
