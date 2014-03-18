@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'redis'
 require 'rspec'
 require 'hiatus'
-require 'kill_switch'
+require 'pauseable'
 
 RSpec.configure do |config|
   config.before { Redis.new.flushdb }

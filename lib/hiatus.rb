@@ -1,5 +1,5 @@
 require 'hiatus/version'
-require 'kill_switch'
+require 'pauseable'
 
 module Hiatus
   def self.configure(configured_key_value_store)

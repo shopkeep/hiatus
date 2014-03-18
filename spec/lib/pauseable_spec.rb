@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 class Dummy
-  extend Hiatus::KillSwitch
+  extend Hiatus::Pauseable
 end
 
-describe Hiatus::KillSwitch do
+describe Hiatus::Pauseable do
   before do
     @storage = Redis.new
     Hiatus.configure(@storage)
