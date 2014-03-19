@@ -1,6 +1,6 @@
 # Hiatus
 
-This gem will allow you to use Redis to pause and check for paused status of things
+This gem will allow you to use Redis to pause and check for paused status of things.
 
 ## Installation
 
@@ -8,25 +8,24 @@ Add this line to your application's Gemfile:
 
     gem 'hiatus'
 
-And then execute:
+And then install with Bundler:
 
-    $ bundle
+    bundle install
 
-Or install it yourself as:
+Or install it globally:
 
-    $ gem install hiatus
+    gem install hiatus
 
 ## Usage
 
-In an initializer, do this:
+### Initialization
 
+In an initializer:
 ```ruby
-Hiatus.configure(Redis.new)
+   Hiatus.configure(Redis.new)
 ```
 
-Uses:
-
-1. Extend an existing model:
+### Extending an existing model
 
 ```ruby
 class YeOldeBlob
@@ -41,17 +40,23 @@ end
 rake stop_blobs do
   YeOldeBlob.pause
 end
-
 ```
 
-1. Pause one or more processes by name
+### Pausing processes by name
 
 ```ruby
 rake read_only_maintenance_mode do
   Hiatus.pause([:blobs, :jobs, :screaming_sobs], 2000)
 end
+```
 
-Hiatus.paused?(:blobs) => true
+```ruby
+class BlobProcessor
+  def process
+    return if Hiatus.paused?(:blobs)
+    ...
+  end
+end
 ```
 
 ## Contributing
