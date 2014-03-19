@@ -15,7 +15,6 @@ describe Hiatus do
 
     context 'when there are two paused processes' do
       let(:first_item) { Hiatus.summary.first }
-      let(:second_item) { Hiatus.summary.last }
 
       before { Hiatus.pause([:franks, :beans], 1000) }
 
