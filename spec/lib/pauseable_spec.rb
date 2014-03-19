@@ -6,6 +6,9 @@ end
 
 describe Hiatus::Pauseable do
   let(:redis) { Redis.new }
+  let(:redis_time) { Time.at(1385107188) }
+
+  before { Redis.current.stub(:time).and_return([redis_time.to_i, 000000]) }
 
   describe 'pause' do
     context 'without a number of seconds specified' do

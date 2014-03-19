@@ -2,6 +2,40 @@ require 'spec_helper'
 
 describe Hiatus do
   let(:redis) { Redis.new }
+  let(:redis_time) { Time.at(1385107188) }
+
+  before { Redis.current.stub(:time).and_return([redis_time.to_i, 000000]) }
+
+  describe '.summary' do
+    context 'when there are no paused processes' do
+      it 'is an empty array' do
+        expect(Hiatus.summary).to eql []
+      end
+    end
+
+    context 'when there are two paused processes' do
+      let(:first_item) { Hiatus.summary.first }
+
+      before { Hiatus.pause([:franks, :beans], 1000) }
+
+      it 'has two items' do
+        expect(Hiatus.summary.count).to eql 2
+      end
+
+      it 'the first element has the correct process' do
+        expect(first_item[:process]).to eql 'franks'
+      end
+
+      it 'the first element has the correct seconds_remaining' do
+        expect(first_item[:seconds_remaining]).to be_within(1).of(1000)
+      end
+
+      it 'the first element has the correct paused_at' do
+        expect(first_item[:paused_at]).to eql '1385107188'
+      end
+    end
+
+  end
 
   describe '.pause' do
     context 'with a single process and no time given' do
@@ -14,6 +48,10 @@ describe Hiatus do
       it 'has a ttl of 30 minutes (1800 seconds)' do
         time_remaining = redis.ttl('hiatus:arbitrary_migration')
         expect(time_remaining).to be_within(5).of(1800)
+      end
+
+      it 'has a value with the current timestamp' do
+        expect(redis.get('hiatus:arbitrary_migration')).to eql '1385107188'
       end
     end
 
