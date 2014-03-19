@@ -18,12 +18,9 @@ Or install it globally:
 
 ## Usage
 
-### Initialization
+### Initialization / Dependency
 
-In an initializer:
-```ruby
-   Hiatus.configure(Redis.new)
-```
+You must have the thread-safe `Redis.current` set up
 
 ### Extending an existing model
 
