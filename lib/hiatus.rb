@@ -17,6 +17,10 @@ module Hiatus
   end
 
   def self.hiatus_update(name, time)
-    Redis.current.setex(hiatus_namespace(name), time, 'on hiatus')
+    Redis.current.setex(hiatus_namespace(name), time, timestamp)
+  end
+
+  def self.timestamp
+    Redis.current.time.first
   end
 end

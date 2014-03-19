@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Hiatus do
   let(:redis) { Redis.new }
+  let(:redis_time) { Time.at(1385107188) }
+
+  before { Redis.current.stub(:time).and_return([redis_time.to_i, 000000]) }
 
   describe '.pause' do
     context 'with a single process and no time given' do
@@ -14,6 +17,10 @@ describe Hiatus do
       it 'has a ttl of 30 minutes (1800 seconds)' do
         time_remaining = redis.ttl('hiatus:arbitrary_migration')
         expect(time_remaining).to be_within(5).of(1800)
+      end
+
+      it 'has a value with the current timestamp' do
+        expect(redis.get('hiatus:arbitrary_migration')).to eql '1385107188'
       end
     end
 
