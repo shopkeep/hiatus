@@ -26,7 +26,7 @@ You must have the thread-safe `Redis.current` set up
 
 ```ruby
 class YeOldeBlob
-  extend Hiatus::Pauseable
+  extend Hiatus::Pausable
 
   def self.process_everything
     return if paused?

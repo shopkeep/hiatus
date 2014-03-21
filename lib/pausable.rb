@@ -1,7 +1,7 @@
 require 'hiatus'
 
 module Hiatus
-  module Pauseable
+  module Pausable
     def pause(seconds = 1800)
       Hiatus.pause(hiatus_key, seconds)
     end
