@@ -1,5 +1,5 @@
 require 'hiatus/version'
-require 'pauseable'
+require 'pausable'
 
 module Hiatus
   NAMESPACE = 'hiatus:'

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 class Dummy
-  extend Hiatus::Pauseable
+  extend Hiatus::Pausable
 end
 
-describe Hiatus::Pauseable do
+describe Hiatus::Pausable do
   let(:redis) { Redis.new }
   let(:redis_time) { Time.at(1385107188) }
 
